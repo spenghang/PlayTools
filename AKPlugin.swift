@@ -66,8 +66,8 @@ class AKPlugin: NSObject, Plugin {
     }
 
     private var modifierFlag: UInt = 0
-    func setupKeyboard(keyboard: @escaping(UInt16, Bool, Bool, Bool) -> Bool,
-                       swapMode: @escaping() -> Bool) {
+    func setupKeyboard(keyboard: @escaping (UInt16, Bool, Bool, Bool) -> Bool,
+                       swapMode: @escaping () -> Bool) {
         func checkCmd(modifier: NSEvent.ModifierFlags) -> Bool {
             if modifier.contains(.command) {
                 self.cmdPressed = true
@@ -122,7 +122,7 @@ class AKPlugin: NSObject, Plugin {
         })
     }
 
-    func setupMouseMoved(_ mouseMoved: @escaping(CGFloat, CGFloat) -> Bool) {
+    func setupMouseMoved(_ mouseMoved: @escaping (CGFloat, CGFloat) -> Bool) {
         let mask: NSEvent.EventTypeMask = [.leftMouseDragged, .otherMouseDragged, .rightMouseDragged]
         NSEvent.addLocalMonitorForEvents(matching: mask, handler: { event in
             let consumed = mouseMoved(event.deltaX, event.deltaY)
@@ -138,7 +138,7 @@ class AKPlugin: NSObject, Plugin {
         })
     }
 
-    func setupMouseButton(left: Bool, right: Bool, _ consumed: @escaping(Int, Bool) -> Bool) {
+    func setupMouseButton(left: Bool, right: Bool, _ consumed: @escaping (Int, Bool) -> Bool) {
         let downType: NSEvent.EventTypeMask = left ? .leftMouseDown : right ? .rightMouseDown : .otherMouseDown
         let upType: NSEvent.EventTypeMask = left ? .leftMouseUp : right ? .rightMouseUp : .otherMouseUp
         NSEvent.addLocalMonitorForEvents(matching: downType, handler: { event in
